@@ -5,6 +5,7 @@ name: Issues to JIRA
 
 on:
   issues:
+    # available via github.event.action
     types: [opened, reopened, closed]
 
 jobs:
@@ -13,15 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create JIRA ticket
-        run: |    
-          if [ ${{ github.event.action }} == "opened" ]; then
-            action=open
-          elif [ ${{ github.event.action }} == "reopened" ]; then
-            action=reopen
-          elif [ ${{ github.event.action }} == "closed" ]; then
-            action=close
-          fi
-          
+        run: |              
           # Determine Bug/Enhancement
           if ${{ contains(github.event.*.labels.*.name, 'Bug') }}; then
             type=bug
@@ -36,7 +29,7 @@ jobs:
                   --arg submitter "${{ github.event.issue.user.login }}" \
                   --arg body "${{ github.event.issue.body }}" \
                   --arg type "$type" \
-                  --arg action "$action" \
+                  --arg action ${{ github.event.action }} \
                   '{title: $title, url: $url, submitter: $submitter, body: $body type: $type, action: $action}' )
                           
           curl -X POST -H 'Content-type: application/json' --data "${data}" "${{ secrets.JIRA_URL }}"
