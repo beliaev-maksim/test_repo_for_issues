@@ -30,6 +30,6 @@ jobs:
                   --arg body "${{ github.event.issue.body }}" \
                   --arg type "$type" \
                   --arg action ${{ github.event.action }} \
-                  '{title: $title, url: $url, submitter: $submitter, body: $body type: $type, action: $action}' )
+                  '{title: $title, url: $url, submitter: $submitter, body: $body, type: $type, action: $action}' )
                           
           curl -X POST -H 'Content-type: application/json' --data "${data}" "${{ secrets.JIRA_URL }}"
