@@ -27,9 +27,9 @@ jobs:
           
           # Determine Bug/Enhancement
           if ${{ contains(github.event.*.labels.*.name, 'Bug') }}; then
-            echo "type=bug" >> $GITHUB_ENV
+            type=bug
           else
-            echo "type=story" >> $GITHUB_ENV
+            type=story
           fi
           
           # send JIRA request
