@@ -12,7 +12,7 @@ jobs:
     name: Update Issue
     runs-on: ubuntu-latest
     steps:
-      - name: Dump Github Context
+      - name: Create JIRA ticket
         run: |    
           if [ ${{ github.event.action }} == "opened" ]; then
             action=open
@@ -34,8 +34,9 @@ jobs:
                   --arg title "${{github.event.issue.title }}" \
                   --arg url "${{ github.event.issue.html_url }}" \
                   --arg submitter "${{ github.event.issue.user.login }}" \
+                  --arg body "${{ github.event.issue.body }}" \
                   --arg type "$type" \
                   --arg action "$action" \
-                  '{title: $title, url: $url, submitter: $submitter, type: $type, action: $action}' )
+                  '{title: $title, url: $url, submitter: $submitter, body: $body type: $type, action: $action}' )
                           
           curl -X POST -H 'Content-type: application/json' --data "${data}" "${{ secrets.JIRA_URL }}"
