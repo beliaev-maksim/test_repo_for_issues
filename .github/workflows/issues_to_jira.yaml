@@ -3,7 +3,9 @@
 
 name: Issues to JIRA
 
-on: [issues]
+on:
+  issues:
+    types: [opened, reopened, closed]
 
 jobs:
   update:
@@ -12,11 +14,6 @@ jobs:
     steps:
       - name: Dump Github Context
         run: |    
-          if [ ${{ github.event_name }} != "issues" ]; then
-            echo "This action only operates on issues"
-            exit 0
-          fi
-
           if [ ${{ github.event.action }} == "opened" ]; then
             action=open
           elif [ ${{ github.event.action }} == "reopened" ]; then
