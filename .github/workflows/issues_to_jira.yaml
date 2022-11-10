@@ -1,0 +1,44 @@
+# this workflow requires to provide JIRA webhook URL via JIRA_URL GitHub Secret
+# read more: https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/#Automationtriggers-Incomingwebhook
+
+name: Issues to JIRA
+
+on: [issues]
+
+jobs:
+  update:
+    name: Update Issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump Github Context
+        run: |    
+          if [ ${{ github.event_name }} != "issues" ]; then
+            echo "This action only operates on issues"
+            exit 0
+          fi
+
+          if [ ${{ github.event.action }} == "opened" ]; then
+            action=open
+          elif [ ${{ github.event.action }} == "reopened" ]; then
+            action=reopen
+          elif [ ${{ github.event.action }} == "closed" ]; then
+            action=close
+          fi
+          
+          # Determine Bug/Enhancement
+          if ${{ contains(github.event.*.labels.*.name, 'Bug') }}; then
+            echo "type=bug" >> $GITHUB_ENV
+          else
+            echo "type=story" >> $GITHUB_ENV
+          fi
+          
+          # send JIRA request
+          data="{
+              title=${{github.event.issue.title }},
+              url=${{ github.event.issue.html_url }},
+              submitter=${{ github.event.issue.user.login }},
+              type=$type,
+              action=$action
+          }"
+                          
+          curl -X POST -H 'Content-type: application/json' --data "${data}" "${{ secrets.JIRA_URL }}"
