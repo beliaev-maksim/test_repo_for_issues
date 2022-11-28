@@ -23,7 +23,7 @@ jobs:
             type=story
           fi
           
-          issue_description=read -d '' sql << EOF
+          read -d '' issue_description << EOF
           ${{ github.event.issue.body }}//$'\n'/'\n'
           EOF
           
