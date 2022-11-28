@@ -25,6 +25,8 @@ jobs:
           
           # filter issue body special chars
           printf -v issue_description '%q' "${{ github.event.issue.body }}"
+          echo $issue_description
+          exit $?
           
           # send JIRA request
           data=$( jq -n \
