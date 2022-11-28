@@ -23,12 +23,8 @@ jobs:
             type=story
           fi
           
-          printf "${{ github.event.issue.body }}" > issue_body.txt
-          issue_description=$(jq -R -s '.' < issue_body.txt)
-          
-          cat issue_body.txt
-          
-          echo "$issue_description"
+          # filter issue body special chars
+          printf -v issue_description '%q' "${{ github.event.issue.body }}"
           
           # send JIRA request
           data=$( jq -n \
