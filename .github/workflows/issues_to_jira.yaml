@@ -23,7 +23,7 @@ jobs:
             type=story
           fi
           
-          description=$(echo '${{ toJSON(github.event.issue.body) }}' | sed 's/\\r\\n/\n/g')
+          description=$(echo ${{ toJSON(github.event.issue.body) }} | sed -e 's/\\r\\n/\n/g' -e 's/`/\`/g')
           # send JIRA request
           data=$( jq -n \
                   --arg title '${{ github.event.issue.title }}' \
