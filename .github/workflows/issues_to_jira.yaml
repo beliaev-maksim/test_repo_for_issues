@@ -24,8 +24,7 @@ jobs:
           fi
           
           # filter issue body special chars
-          printf -v issue_description '%q' "${{ github.event.issue.body }}"
-          issue_description=$(echo $issue_description | sed 's/\\r\\n/\n/g')
+          issue_description=$(echo ${{ github.event.issue.body }} | sed 's/[^a-zA-Z 0-9]/\\&/g')
 
           
           # send JIRA request
