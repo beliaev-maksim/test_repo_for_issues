@@ -24,6 +24,7 @@ jobs:
           fi
           
           description=$(echo ${{ toJSON(github.event.issue.body) }} | sed 's/\\r\\n/\n/g')
+          echo $description
           # send JIRA request
           data=$( jq -n \
                   --arg title '${{ github.event.issue.title }}' \
