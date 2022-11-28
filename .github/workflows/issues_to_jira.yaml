@@ -26,6 +26,7 @@ jobs:
           read -d '' issue_description << EOF
           ${{ github.event.issue.body }}//$'\n'/'\n'
           EOF
+          exit $?
           
           # send JIRA request
           data=$( jq -n \
