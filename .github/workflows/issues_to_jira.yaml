@@ -26,6 +26,10 @@ jobs:
           printf "${{ github.event.issue.body }}" > issue_body.txt
           issue_description=$(jq -R -s '.' < issue_body.txt)
           
+          cat issue_body.txt
+          
+          echo "$issue_description"
+          
           # send JIRA request
           data=$( jq -n \
                   --arg title '${{ github.event.issue.title }}' \
