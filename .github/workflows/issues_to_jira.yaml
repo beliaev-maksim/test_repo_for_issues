@@ -23,10 +23,8 @@ jobs:
             type=story
           fi
           
-          read -d '' issue_description << EOF
-          ${{ github.event.issue.body }}//$'\n'/'\n'
-          EOF
-          exit $?
+          printf "${{ github.event.issue.body }}" > issue_body.txt
+          issue_description=$(jq -R -s '.' < issue_body.txt)
           
           # send JIRA request
           data=$( jq -n \
