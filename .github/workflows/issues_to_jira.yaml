@@ -26,6 +26,12 @@ jobs:
           fi
           
           # send JIRA request
+                            
+          # canonical doesn't encourage discussions in JIRA on pulic project issues
+          # thus it is recommended to to put description in JIRA to push conversation to GH
+          # if strongly required, then replace '--arg body ""' with the next line
+          # --arg body "$ISSUE_DESCRIPTION" 
+                  
           data=$( jq -n \
                   --arg title '${{ github.event.issue.title }}' \
                   --arg url '${{ github.event.issue.html_url }}' \
