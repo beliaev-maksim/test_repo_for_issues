@@ -2,7 +2,7 @@
 # read more: https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/#Automationtriggers-Incomingwebhook
 # original code source: https://github.com/beliaev-maksim/github-to-jira-automation
 
-name: Issues to JIRA
+# sd
 
 on:
   issues:
